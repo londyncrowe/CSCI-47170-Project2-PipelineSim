@@ -41,7 +41,7 @@ namespace Project2
                         strWrite = count.ToString();
                         count += commit;
                         strCommit = count.ToString();
-                        Console.WriteLine(String.Format("{0,-23}{1,-5}{2,-10}{3,-6}{4,-7}{5,-1}" ,
+                        Console.WriteLine(String.Format("{0,-22}{1,6}{2,9}{3,6}{4,6}{5,8}" ,
                             instructions[i] , strIssue , strExecute , strRead , strWrite , strCommit));
                         break;
                     #endregion
@@ -59,7 +59,7 @@ namespace Project2
                         strWrite = count.ToString();
                         count += commit;
                         strCommit = count.ToString();
-                        Console.WriteLine(String.Format("{0,-23}{1,-5}{2,-10}{3,-6}{4,-7}{5,-1}" ,
+                        Console.WriteLine(String.Format("{0,-22}{1,6}{2,9}{3,6}{4,6}{5,8}" ,
                             instructions[i] , strIssue , strExecute , strRead , strWrite , strCommit));
                         break;
                     #endregion
@@ -77,7 +77,7 @@ namespace Project2
                         strWrite = count.ToString();
                         count += commit;
                         strCommit = count.ToString();
-                        Console.WriteLine(String.Format("{0,-23}{1,-5}{2,-10}{3,-6}{4,-7}{5,-1}" ,
+                        Console.WriteLine(String.Format("{0,-22}{1,6}{2,9}{3,6}{4,6}{5,8}" ,
                             instructions[i] , strIssue , strExecute , strRead , strWrite , strCommit));
                         break;
                     #endregion
@@ -95,7 +95,7 @@ namespace Project2
                         strWrite = count.ToString();
                         count += commit;
                         strCommit = count.ToString();
-                        Console.WriteLine(String.Format("{0,-23}{1,-5}{2,-10}{3,-6}{4,-7}{5,-1}" ,
+                        Console.WriteLine(String.Format("{0,-22}{1,6}{2,9}{3,6}{4,6}{5,8}" ,
                             instructions[i] , strIssue , strExecute , strRead , strWrite , strCommit));
                         break;
                     #endregion
@@ -112,7 +112,7 @@ namespace Project2
                         strWrite = count.ToString();
                         count += commit;
                         strCommit = count.ToString();
-                        Console.WriteLine(String.Format("{0,-23}{1,-5}{2,-10}{3,-6}{4,-7}{5,-1}",
+                        Console.WriteLine(String.Format("{0,-22}{1,6}{2,9}{3,6}{4,6}{5,8}" ,
                             instructions[i], strIssue, strExecute, strRead, strWrite, strCommit));
                         break;
                     #endregion
@@ -129,7 +129,7 @@ namespace Project2
                         strWrite = count.ToString();
                         count += commit;
                         strCommit = count.ToString();
-                        Console.WriteLine(String.Format("{0,-23}{1,-5}{2,-10}{3,-6}{4,-7}{5,-1}" ,
+                        Console.WriteLine(String.Format("{0,-22}{1,6}{2,9}{3,6}{4,6}{5,8}" ,
                             instructions[i] , strIssue , strExecute , strRead , strWrite , strCommit));
                         break;
                     #endregion
@@ -146,7 +146,7 @@ namespace Project2
                         strWrite = count.ToString();
                         count += commit;
                         strCommit = count.ToString();
-                        Console.WriteLine(String.Format("{0,-23}{1,-5}{2,-10}{3,-6}{4,-7}{5,-1}" ,
+                        Console.WriteLine(String.Format("{0,-22}{1,6}{2,9}{3,6}{4,6}{5,8}" ,
                             instructions[i] , strIssue , strExecute , strRead , strWrite , strCommit));
                         break;
                     #endregion
@@ -163,7 +163,7 @@ namespace Project2
                         strWrite = count.ToString();
                         count += commit;
                         strCommit = count.ToString();
-                        Console.WriteLine(String.Format("{0,-23}{1,-5}{2,-10}{3,-6}{4,-7}{5,-1}" ,
+                        Console.WriteLine(String.Format("{0,-22}{1,6}{2,9}{3,6}{4,6}{5,8}" ,
                             instructions[i] , strIssue , strExecute , strRead , strWrite , strCommit));
                         break;
                     #endregion
@@ -180,7 +180,7 @@ namespace Project2
                         strWrite = count.ToString();
                         count += commit;
                         strCommit = count.ToString();
-                        Console.WriteLine(String.Format("{0,-23}{1,-5}{2,-10}{3,-6}{4,-7}{5,-1}" ,
+                        Console.WriteLine(String.Format("{0,-22}{1,6}{2,9}{3,6}{4,6}{5,8}" ,
                             instructions[i] , strIssue , strExecute , strRead , strWrite , strCommit));
                         break;
                     #endregion
@@ -197,7 +197,7 @@ namespace Project2
                         strWrite = count.ToString();
                         count += commit;
                         strCommit = count.ToString();
-                        Console.WriteLine(String.Format("{0,-23}{1,-5}{2,-10}{3,-6}{4,-7}{5,-1}" ,
+                        Console.WriteLine(String.Format("{0,-22}{1,6}{2,9}{3,6}{4,6}{5,8}" ,
                             instructions[i] , strIssue , strExecute , strRead , strWrite , strCommit));
                         break;
                     #endregion
@@ -214,7 +214,7 @@ namespace Project2
                         strWrite = count.ToString();
                         count += commit;
                         strCommit = count.ToString();
-                        Console.WriteLine(String.Format("{0,-23}{1,-5}{2,-10}{3,-6}{4,-7}{5,-1}" ,
+                        Console.WriteLine(String.Format("{0,-22}{1,6}{2,9}{3,6}{4,6}{5,8}" ,
                             instructions[i] , strIssue , strExecute , strRead , strWrite , strCommit));
                         break;
                     #endregion
@@ -231,7 +231,7 @@ namespace Project2
                         strWrite = count.ToString();
                         count += commit;
                         strCommit = count.ToString();
-                        Console.WriteLine(String.Format("{0,-23}{1,-5}{2,-10}{3,-6}{4,-7}{5,-1}" ,
+                        Console.WriteLine(String.Format("{0,-22}{1,6}{2,9}{3,6}{4,6}{5,8}" ,
                             instructions[i] , strIssue , strExecute , strRead , strWrite , strCommit));
                         break;
                         #endregion
