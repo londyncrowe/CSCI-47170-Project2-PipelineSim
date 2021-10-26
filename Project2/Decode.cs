@@ -37,7 +37,7 @@ namespace Project2
         public List<string> DecodeInstruction(string fetchedInstruction)
         {
             SetInstruction(fetchedInstruction);
-            string[] instruction = this.instruction.Split('\t');
+            string[] instruction = this.instruction.Split(' ');
             string opcode = instruction[0];
             string[] operands = instruction[1].Split(',');
             List<string> decodedInstruction = new List<string>();

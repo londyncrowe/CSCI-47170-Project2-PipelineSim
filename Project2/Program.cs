@@ -7,23 +7,28 @@ namespace Project2
     {
         static void Main(string[] args)
         {
-            // Example Fetch --> Decode 
+
+            Console.WriteLine(String.Format("{0,16}{1,12}{2,9}{3,6}{4,6}{5,8}" , "Instruction", "Issues", 
+                "Executes", "Reads", "Write", "Commits"));
+            Console.WriteLine("--------------------- ------ -------- ----- ----- -------");
+
+
+            #region Fetch/Decode
             Fetch fetch = new Fetch();
-            string instruction = fetch.GetInstruction();
+            
+            List<string> instructions = new List<string>();
+            for (int i = 0; i < fetch.lineCount; i++)
+            {
+                string instruction = fetch.GetInstruction();
+                instructions.Add(instruction);
+            }
 
-            Decode decode = new Decode();
-            List<string> decodedInstruction = decode.DecodeInstruction(instruction);
-
-            for (int i = 0; i < decodedInstruction.Count; i++)
-                Console.WriteLine(decodedInstruction[i]);
-
-            instruction = fetch.GetInstruction();
-            decodedInstruction = decode.DecodeInstruction(instruction);
-
-            for (int i = 0; i < decodedInstruction.Count; i++)
-                Console.WriteLine(decodedInstruction[i]);
 
             // End Fetch --> Decode
+            #endregion
+
+            Simulate.Sim(instructions);
+            Console.ReadKey();
         }
     }
 }
