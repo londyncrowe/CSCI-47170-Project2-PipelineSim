@@ -10,25 +10,37 @@ namespace Project2
     {
         //private latency values for all the ops, could possible be removed if we added a config file and passed
         //in all of our latency values in the config file
-        private static int lw = 1, flw = 1, sw = 1, fsw = 1, add = 1, sub = 1, bne = 1, beq = 1, fadd = 1,
+        private static int lw = 0, flw = 0, sw = 0, fsw = 0, add = 0, sub = 0, bne = 0, beq = 0, fadd = 1,
             fsub = 1, fmul = 4, fdiv = 9, write = 1, read = 1, commit = 1, issue = 1;
         public static void Sim(List<string> instructions)
         {
             //used for print formatting in the switch cases
-            string strIssue, strExecute, strRead, strWrite, strCommit;
-            int count = 0;
+            string strInst, strIssue, strExecute, strRead, strWrite, strCommit;
+            List<int[]> counts = new List<int[]>();
+            counts.Add(new[] { 0, 1, 1, 3, 4, 5});
             Decode decode = new Decode();
             //loop through all the instructions
-            for(int i = 0; i < instructions.Count(); i++)
+            while(instructions.Count != 0)
             {
-                //use decode to grab the operation we will be performing
-                List<string> decodedInstruction = decode.DecodeInstruction(instructions[i]);
+                //fill a buffer with the instructions to populate the pipeline
+                List<string> decodedInst = decode.DecodeInstruction(instructions[0]);
+                strInst = instructions[0];
+                instructions.RemoveAt(0);
+                counts.Add(new int[6]);
 
-                //first position of the decodedInstruction list will have the instruction
-                switch(decodedInstruction[0])
+                //Count issue stage for each instruction
+                    counts[counts.Count - 1][0] = counts[counts.Count - 2][1];  //last instruction leaves issue stage
+
+                //when entering the execute stage
+                    counts[counts.Count - 1][1] = counts[counts.Count - 2][2] + 1;
+
+                //add counts for execute end
+                switch (decodedInst[0])
                 {
                     #region lwCase
                     case "lw":
+                        counts[counts.Count - 1][2] = counts[counts.Count - 1][1] + lw;
+                        /*
                         count++;
                         strIssue = count.ToString();
                         count += issue;
@@ -43,10 +55,13 @@ namespace Project2
                         strCommit = count.ToString();
                         Console.WriteLine(String.Format("{0,-22}{1,6}{2,9}{3,6}{4,6}{5,8}" ,
                             instructions[i] , strIssue , strExecute , strRead , strWrite , strCommit));
+                        */
                         break;
                     #endregion
                     #region flwCase
                     case "flw":
+                        counts[counts.Count - 1][2] = counts[counts.Count - 1][1] + flw;
+                        /*
                         count++;
                         strIssue = count.ToString();
                         count += issue;
@@ -61,181 +76,89 @@ namespace Project2
                         strCommit = count.ToString();
                         Console.WriteLine(String.Format("{0,-22}{1,6}{2,9}{3,6}{4,6}{5,8}" ,
                             instructions[i] , strIssue , strExecute , strRead , strWrite , strCommit));
+                        */
                         break;
                     #endregion
                     #region swCase
                     case "sw":
-                        count++;
-                        strIssue = count.ToString();
-                        count += issue;
-                        strExecute = count.ToString() + " - ";
-                        count += sw;
-                        strExecute += count.ToString();
-                        count += read;
-                        strRead = count.ToString();
-                        count += write;
-                        strWrite = count.ToString();
-                        count += commit;
-                        strCommit = count.ToString();
-                        Console.WriteLine(String.Format("{0,-22}{1,6}{2,9}{3,6}{4,6}{5,8}" ,
-                            instructions[i] , strIssue , strExecute , strRead , strWrite , strCommit));
+                        counts[counts.Count - 1][2] = counts[counts.Count - 1][1] + sw;
                         break;
                     #endregion
                     #region fswCase
                     case "fsw":
-                        count++;
-                        strIssue = count.ToString();
-                        count += issue;
-                        strExecute = count.ToString() + " - ";
-                        count += fsw;
-                        strExecute += count.ToString();
-                        count += read;
-                        strRead = count.ToString();
-                        count += write;
-                        strWrite = count.ToString();
-                        count += commit;
-                        strCommit = count.ToString();
-                        Console.WriteLine(String.Format("{0,-22}{1,6}{2,9}{3,6}{4,6}{5,8}" ,
-                            instructions[i] , strIssue , strExecute , strRead , strWrite , strCommit));
+                        counts[counts.Count - 1][2] = counts[counts.Count - 1][1] + fsw;
                         break;
                     #endregion
                     #region addCase
                     case "add":
-                        count++;
-                        strIssue = count.ToString();
-                        count += issue;
-                        strExecute = count.ToString() + " - ";
-                        count+= add;
-                        strExecute += count.ToString();
-                        strRead = "";
-                        count += write;
-                        strWrite = count.ToString();
-                        count += commit;
-                        strCommit = count.ToString();
-                        Console.WriteLine(String.Format("{0,-22}{1,6}{2,9}{3,6}{4,6}{5,8}" ,
-                            instructions[i], strIssue, strExecute, strRead, strWrite, strCommit));
+                        counts[counts.Count - 1][2] = counts[counts.Count - 1][1] + add;
                         break;
                     #endregion
                     #region subCase
                     case "sub":
-                        count++;
-                        strIssue = count.ToString();
-                        count += issue;
-                        strExecute = count.ToString() + " - ";
-                        count += sub;
-                        strExecute += count.ToString();
-                        strRead = "";
-                        count += write;
-                        strWrite = count.ToString();
-                        count += commit;
-                        strCommit = count.ToString();
-                        Console.WriteLine(String.Format("{0,-22}{1,6}{2,9}{3,6}{4,6}{5,8}" ,
-                            instructions[i] , strIssue , strExecute , strRead , strWrite , strCommit));
+                        counts[counts.Count - 1][2] = counts[counts.Count - 1][1] + sub;
                         break;
                     #endregion
                     #region beqCase
                     case "beq":
-                        count++;
-                        strIssue = count.ToString();
-                        count += issue;
-                        strExecute = count.ToString() + " - ";
-                        count += beq;
-                        strExecute += count.ToString();
-                        strRead = "";
-                        count += write;
-                        strWrite = count.ToString();
-                        count += commit;
-                        strCommit = count.ToString();
-                        Console.WriteLine(String.Format("{0,-22}{1,6}{2,9}{3,6}{4,6}{5,8}" ,
-                            instructions[i] , strIssue , strExecute , strRead , strWrite , strCommit));
+                        counts[counts.Count - 1][2] = counts[counts.Count - 1][1] + beq;
                         break;
                     #endregion
                     #region bneCase
                     case "bne":
-                        count++;
-                        strIssue = count.ToString();
-                        count += issue;
-                        strExecute = count.ToString() + " - ";
-                        count += bne;
-                        strExecute += count.ToString();
-                        strRead = "";
-                        count += write;
-                        strWrite = count.ToString();
-                        count += commit;
-                        strCommit = count.ToString();
-                        Console.WriteLine(String.Format("{0,-22}{1,6}{2,9}{3,6}{4,6}{5,8}" ,
-                            instructions[i] , strIssue , strExecute , strRead , strWrite , strCommit));
+                        counts[counts.Count - 1][2] = counts[counts.Count - 1][1] + bne;
                         break;
                     #endregion
                     #region faddCase
                     case "fadd.s":
-                        count++;
-                        strIssue = count.ToString();
-                        count += issue;
-                        strExecute = count.ToString() + " - ";
-                        count += fadd;
-                        strExecute += count.ToString();
-                        strRead = "";
-                        count += write;
-                        strWrite = count.ToString();
-                        count += commit;
-                        strCommit = count.ToString();
-                        Console.WriteLine(String.Format("{0,-22}{1,6}{2,9}{3,6}{4,6}{5,8}" ,
-                            instructions[i] , strIssue , strExecute , strRead , strWrite , strCommit));
+                        counts[counts.Count - 1][2] = counts[counts.Count - 1][1] + fadd;
                         break;
                     #endregion
                     #region fsubCase
                     case "fsub.s":
-                        count++;
-                        strIssue = count.ToString();
-                        count += issue;
-                        strExecute = count.ToString() + " - ";
-                        count += fsub;
-                        strExecute += count.ToString();
-                        strRead = "";
-                        count += write;
-                        strWrite = count.ToString();
-                        count += commit;
-                        strCommit = count.ToString();
-                        Console.WriteLine(String.Format("{0,-22}{1,6}{2,9}{3,6}{4,6}{5,8}" ,
-                            instructions[i] , strIssue , strExecute , strRead , strWrite , strCommit));
+                        counts[counts.Count - 1][2] = counts[counts.Count - 1][1] + fsub;
                         break;
                     #endregion
                     #region fmulCase
                     case "fmul.s":
-                        count++;
-                        strIssue = count.ToString();
-                        count += issue;
-                        strExecute = count.ToString() + " - ";
-                        count += fmul;
-                        strExecute += count.ToString();
-                        strRead = "";
-                        count += write;
-                        strWrite = count.ToString();
-                        count += commit;
-                        strCommit = count.ToString();
-                        Console.WriteLine(String.Format("{0,-22}{1,6}{2,9}{3,6}{4,6}{5,8}" ,
-                            instructions[i] , strIssue , strExecute , strRead , strWrite , strCommit));
+                        counts[counts.Count - 1][2] = counts[counts.Count - 1][1] + fmul;
                         break;
                     #endregion
                     #region fdivCase
                     case "fdiv.s":
-                        count++;
-                        strIssue = count.ToString();
-                        count += issue;
-                        strExecute = count.ToString() + " - ";
-                        count += fdiv;
-                        strExecute += count.ToString();
-                        strRead = "";
-                        count += write;
-                        strWrite = count.ToString();
-                        count += commit;
-                        strCommit = count.ToString();
-                        Console.WriteLine(String.Format("{0,-22}{1,6}{2,9}{3,6}{4,6}{5,8}" ,
-                            instructions[i] , strIssue , strExecute , strRead , strWrite , strCommit));
+                        counts[counts.Count - 1][2] = counts[counts.Count - 1][1] + fdiv;
                         break;
                         #endregion
                 }
+
+                //read counts
+                if (decodedInst[0] == "lw" || decodedInst[0] == "flw")
+                {
+                    counts[counts.Count - 1][3] = counts[counts.Count - 1][2] + 1;
+                    strRead = counts[counts.Count - 1][3].ToString();
+                }
+                else
+                {
+                    counts[counts.Count - 1][3] = counts[counts.Count - 1][2];
+                    strRead = "";
+                }
+                
+                //write counts
+                counts[counts.Count - 1][4] = counts[counts.Count - 1][3] + 1;
+                //commit counts
+                counts[counts.Count - 1][5] = counts[counts.Count - 1][4] + 1;
+
+
+
+
+                strIssue = counts[counts.Count - 1][0].ToString();
+                strExecute = counts[counts.Count - 1][1].ToString() + " - "
+                    + counts[counts.Count - 1][2].ToString();
+                strWrite = counts[counts.Count - 1][4].ToString();
+                strCommit = counts[counts.Count - 1][5].ToString();
+
+                Console.WriteLine(String.Format("{0,-22}{1,6}{2,9}{3,6}{4,6}{5,8}",
+                            strInst, strIssue, strExecute, strRead, strWrite, strCommit));
             }
         }
     }
