@@ -13,7 +13,7 @@ namespace Project2
     class Fetch
     {
         private StreamReader sr;
-        public int lineCount = File.ReadLines("../../../Instructions.txt").Count();
+        public int lineCount;
 
         /// <summary>
         /// Default constructor
@@ -21,7 +21,8 @@ namespace Project2
         public Fetch()
         {
             sr = new StreamReader("../../../Instructions.txt");
-            
+            lineCount = File.ReadLines("../../../Instructions.txt").Count();
+
         }
 
         /// <summary>
@@ -31,6 +32,7 @@ namespace Project2
         public Fetch(string filepath)
         {
             sr = new StreamReader("../../../" + filepath);
+            lineCount = File.ReadLines("../../../" + filepath).Count();
         }
 
         /// <summary>

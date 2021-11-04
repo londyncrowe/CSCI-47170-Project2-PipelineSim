@@ -14,8 +14,29 @@ namespace Project2
 
 
             #region Fetch/Decode
+            Console.WriteLine("Enter file name:");
             Fetch fetch = new Fetch();
-            
+            //Fetch fetch = new Fetch(Console.ReadLine());
+
+            BranchPredictor predictor = new BranchPredictor(2, 3);
+
+            predictor.PredictBranchTournament(4);
+            predictor.UpdatePredictor(false);
+            predictor.PredictBranchTournament(4);
+            predictor.UpdatePredictor(false);
+            predictor.PredictBranchTournament(4);
+            predictor.UpdatePredictor(false);
+            predictor.PredictBranchTournament(4);
+            predictor.UpdatePredictor(true);
+            predictor.PredictBranchTournament(4);
+            predictor.UpdatePredictor(true);
+            predictor.PredictBranchTournament(4);
+            predictor.UpdatePredictor(false);
+            predictor.PredictBranchTournament(0);
+            predictor.UpdatePredictor(true);
+            predictor.PredictBranchTournament(0);
+            predictor.UpdatePredictor(false);
+
             List<string> instructions = new List<string>();
             for (int i = 0; i < fetch.lineCount; i++)
             {
