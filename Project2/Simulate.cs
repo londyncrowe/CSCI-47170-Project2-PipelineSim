@@ -8,10 +8,6 @@ namespace Project2
 {
     class Simulate
     {
-        //private latency values for all the ops, could possible be removed if we added a config file and passed
-        //in all of our latency values in the config file
-        private static int lw = 0, flw = 0, sw = 0, fsw = 0, add = 0, sub = 0, bne = 0, beq = 0, fadd = 1,
-            fsub = 1, fmul = 4, fdiv = 9, write = 1, read = 1, commit = 1, issue = 1;
         public static void Sim(List<string> instructions)
         {
             //used for print formatting in the switch cases
@@ -39,7 +35,7 @@ namespace Project2
                 {
                     #region lwCase
                     case "lw":
-                        counts[counts.Count - 1][2] = counts[counts.Count - 1][1] + lw;
+                        counts[counts.Count - 1][2] = counts[counts.Count - 1][1] + Config.lw;
                         /*
                         count++;
                         strIssue = count.ToString();
@@ -60,7 +56,7 @@ namespace Project2
                     #endregion
                     #region flwCase
                     case "flw":
-                        counts[counts.Count - 1][2] = counts[counts.Count - 1][1] + flw;
+                        counts[counts.Count - 1][2] = counts[counts.Count - 1][1] + Config.flw;
                         /*
                         count++;
                         strIssue = count.ToString();
@@ -81,52 +77,52 @@ namespace Project2
                     #endregion
                     #region swCase
                     case "sw":
-                        counts[counts.Count - 1][2] = counts[counts.Count - 1][1] + sw;
+                        counts[counts.Count - 1][2] = counts[counts.Count - 1][1] + Config.sw;
                         break;
                     #endregion
                     #region fswCase
                     case "fsw":
-                        counts[counts.Count - 1][2] = counts[counts.Count - 1][1] + fsw;
+                        counts[counts.Count - 1][2] = counts[counts.Count - 1][1] + Config.fsw;
                         break;
                     #endregion
                     #region addCase
                     case "add":
-                        counts[counts.Count - 1][2] = counts[counts.Count - 1][1] + add;
+                        counts[counts.Count - 1][2] = counts[counts.Count - 1][1] + Config.add;
                         break;
                     #endregion
                     #region subCase
                     case "sub":
-                        counts[counts.Count - 1][2] = counts[counts.Count - 1][1] + sub;
+                        counts[counts.Count - 1][2] = counts[counts.Count - 1][1] + Config.sub;
                         break;
                     #endregion
                     #region beqCase
                     case "beq":
-                        counts[counts.Count - 1][2] = counts[counts.Count - 1][1] + beq;
+                        counts[counts.Count - 1][2] = counts[counts.Count - 1][1] + Config.beq;
                         break;
                     #endregion
                     #region bneCase
                     case "bne":
-                        counts[counts.Count - 1][2] = counts[counts.Count - 1][1] + bne;
+                        counts[counts.Count - 1][2] = counts[counts.Count - 1][1] + Config.bne;
                         break;
                     #endregion
                     #region faddCase
                     case "fadd.s":
-                        counts[counts.Count - 1][2] = counts[counts.Count - 1][1] + fadd;
+                        counts[counts.Count - 1][2] = counts[counts.Count - 1][1] + Config.fadd;
                         break;
                     #endregion
                     #region fsubCase
                     case "fsub.s":
-                        counts[counts.Count - 1][2] = counts[counts.Count - 1][1] + fsub;
+                        counts[counts.Count - 1][2] = counts[counts.Count - 1][1] + Config.fsub;
                         break;
                     #endregion
                     #region fmulCase
                     case "fmul.s":
-                        counts[counts.Count - 1][2] = counts[counts.Count - 1][1] + fmul;
+                        counts[counts.Count - 1][2] = counts[counts.Count - 1][1] + Config.fmul;
                         break;
                     #endregion
                     #region fdivCase
                     case "fdiv.s":
-                        counts[counts.Count - 1][2] = counts[counts.Count - 1][1] + fdiv;
+                        counts[counts.Count - 1][2] = counts[counts.Count - 1][1] + Config.fdiv;
                         break;
                         #endregion
                 }

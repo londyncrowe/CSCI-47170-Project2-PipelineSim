@@ -1,0 +1,21 @@
+﻿latencies
+
+lw = 0
+flw = 0
+sw = 0
+fsw = 0
+add = 1
+sub = 1
+bne = 0
+beq = 0
+fadd = 1
+fsub = 1
+fmul = 4
+fdiv = 9
+write = 1
+read = 1
+commit = 1
+issue = 1
+
+buffers
+

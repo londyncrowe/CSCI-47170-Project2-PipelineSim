@@ -7,6 +7,7 @@ namespace Project2
     {
         static void Main(string[] args)
         {
+            Config.InitConfigurations();    // Reads config.txt file and sets latency values. 
 
             Console.WriteLine(String.Format("{0,16}{1,12}{2,9}{3,6}{4,6}{5,8}" , "Instruction", "Issues", 
                 "Executes", "Reads", "Write", "Commits"));
