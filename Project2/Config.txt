@@ -16,6 +16,11 @@ write = 1
 read = 1
 commit = 1
 issue = 1
+adder = 3
+mul = 2
+load = 2
+store = 2
+rob = 5
 
 buffers
 

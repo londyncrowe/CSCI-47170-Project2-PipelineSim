@@ -153,8 +153,8 @@ namespace Project2
                 strWrite = counts[counts.Count - 1][4].ToString();
                 strCommit = counts[counts.Count - 1][5].ToString();
 
-                Console.WriteLine(String.Format("{0,-22}{1,6}{2,9}{3,6}{4,6}{5,8}",
-                            strInst, strIssue, strExecute, strRead, strWrite, strCommit));
+                Console.WriteLine(String.Format("{0,-22}{1,7}{2,9}{3,10}{4,7}{5,8}{6,9}" ,
+                            strInst, strIssue, strIssue, strExecute, strRead, strWrite, strCommit));
             }
         }
     }
