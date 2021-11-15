@@ -9,14 +9,28 @@ namespace Project2
         {
             Config.InitConfigurations();    // Reads config.txt file and sets latency values. 
 
+            Console.Write("Enter file name (leave blank for default): ");
+            string filename = Console.ReadLine();
+            Fetch fetch = new Fetch();    // Use default constructor
+            if (!string.IsNullOrEmpty(filename))
+            {
+                try
+                {
+                    fetch = new Fetch(filename);
+                }
+                catch(System.IO.FileNotFoundException e)
+                {
+                    Console.WriteLine("Error: Couldn't find " + filename + ". Exiting...");
+                    Environment.Exit(0);
+                }
+            }
+            Console.WriteLine("\n");    // Formatting
             Console.WriteLine(String.Format("{0,16}{1,12}{2,9}{3,6}{4,6}{5,8}" , "Instruction", "Issues", 
                 "Executes", "Reads", "Write", "Commits"));
             Console.WriteLine("--------------------- ------ -------- ----- ----- -------");
 
 
             #region Fetch/Decode
-            Console.WriteLine("Enter file name:");
-            Fetch fetch = new Fetch();
             //Fetch fetch = new Fetch(Console.ReadLine());
 
             BranchPredictor predictor = new BranchPredictor(2, 3);
