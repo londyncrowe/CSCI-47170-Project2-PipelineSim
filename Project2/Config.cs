@@ -9,7 +9,8 @@ namespace Project2
 {
     static class Config
     {
-        public static byte lw, flw, sw, fsw, add, sub, bne, beq, fadd, fsub, fmul, fdiv, write, read, commit, issue;
+        public static byte lw, flw, sw, fsw, add, sub, bne, beq, fadd, fsub, fmul, fdiv, write, read, commit, issue,
+            adder, mul, load, store, rob;
         const string FILENAME = "Config.txt";
 
         /// <summary>
@@ -106,7 +107,23 @@ namespace Project2
                 case "issue":
                     issue = byte.Parse(tokens[1]);
                     break;
+                case "adder":
+                    adder = byte.Parse(tokens[1]);
+                    break;
+                case "mul":
+                    mul = byte.Parse(tokens[1]);
+                    break;
+                case "load":
+                    load = byte.Parse(tokens[1]);
+                    break;
+                case "store":
+                    store = byte.Parse(tokens[1]);
+                    break;
+                case "rob":
+                    rob = byte.Parse(tokens[1]);
+                    break;
             }
         }
+        
     }
 }
