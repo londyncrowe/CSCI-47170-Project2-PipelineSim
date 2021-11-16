@@ -71,7 +71,7 @@ namespace Project2
             //Simulate.Sim(instructions);
 
             //this is the Tomasulo version with out of order exe and register renaming
-            Tomasulo.TomasuloSim(instructionEntry, state);
+            OutOfOrderSim.OutOfOrder(instructionEntry, state);
             
 
             Console.ReadKey();
