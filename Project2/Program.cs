@@ -14,6 +14,28 @@ namespace Project2
             Console.WriteLine("--------------------- ------- -------- --------- ------ ------- --------");
 
 
+            Console.Write("Enter file name (leave blank for default): ");
+            string filename = Console.ReadLine();
+            Fetch fetch = new Fetch();    // Use default constructor
+            if (!string.IsNullOrEmpty(filename))
+            {
+                try
+                {
+                    fetch = new Fetch(filename);
+                }
+                catch(System.IO.FileNotFoundException e)
+                {
+                    Console.WriteLine("Error: Couldn't find " + filename + ". Exiting...");
+                    Environment.Exit(0);
+                }
+            }
+            Console.WriteLine("\n");    // Formatting
+            Console.WriteLine(String.Format("{0,16}{1,12}{2,9}{3,6}{4,6}{5,8}" , "Instruction", "Issues", 
+                "Executes", "Reads", "Write", "Commits"));
+            Console.WriteLine("--------------------- ------ -------- ----- ----- -------");
+
+
+            #region Fetch/Decode
 
             #region branchPredictor
             BranchPredictor predictor = new BranchPredictor(2, 3);
@@ -37,7 +59,6 @@ namespace Project2
             #endregion
 
             //fetch gets the file with all the instructions
-            Fetch fetch = new Fetch();
             Decode decode = new Decode();
             //state is an object that contains the reservation station and the reorder buffer
             State state = new State();
@@ -70,7 +91,7 @@ namespace Project2
             //this is the static version
             //Simulate.Sim(instructions);
 
-            //this is the Tomasulo version with out of order exe and register renaming
+            //this is the out of order version with out of order exe
             OutOfOrderSim.OutOfOrder(instructionEntry, state);
             
 
