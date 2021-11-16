@@ -1,0 +1,7 @@
+﻿flw f6,32(x2):0
+flw f2,48(x3):4
+fmul f0,f2,f4
+fsub f8,f6,f2
+fdiv f10,f0,f6
+fadd f6,f8,f2
+fadd f3,f6,f10

@@ -14,16 +14,24 @@ namespace Project2
             int count = 1;
             int instCounter = 0;
             Boolean done = false;
-            //loop through a cycle
+            List<int> robCount = new List<int>();
+            //loop through
             while(!done)
             {
                 #region fetch/decode
                 for (int j = 0; j < Config.rob; j++)
                 {
+                    //if rob is not full
                     if (state.rob.rob[j] == null)
                     {
-                        state.rob.rob[j] = instructionEntries[globalCount].instruction;
+                        if (robCount.Count >= Config.rob && robCount[globalCount - Config.rob] >= count)
+                            count = robCount[globalCount - Config.rob] + 1;
+
+
+                            //put instruction into rob and set fetch and decode cycle counts
+                            state.rob.rob[j] = instructionEntries[globalCount].instruction;
                         instructionEntries[globalCount].fetch = count.ToString();
+                        count++;
                         instructionEntries[globalCount].decode = count++.ToString();
                         globalCount++;
                         break;
@@ -34,6 +42,9 @@ namespace Project2
 
                 #region execute
                 int exeTime = 0;
+                int hazardPointer = 0;
+                Boolean hazardExists = false;
+                //loop through and work on the next instruction that has not been committed yet
                 for (int j = 0; j < instructionEntries.Count - 1; j++)
                     if(instructionEntries[j].commit == null)
                     {
@@ -41,19 +52,24 @@ namespace Project2
                         break;
                     }
 
+                //loop through previous entries looking for data hazards
                 for (int j = instCounter; j >= 0; j--)
                 {
+                    //if there is a data hazard
                     if(instructionEntries[instCounter].op1 == instructionEntries[j].dest ||
                         instructionEntries[instCounter].op2 == instructionEntries[j].dest)
                     {
+                        //if the data hazard has not finished executing
                         if (instructionEntries[j].execute == null)
                             break;
                         else
                         {
                             count = Int32.Parse(instructionEntries[j].write) + 1;
                             exeTime = GetExecutionTime(instructionEntries[instCounter].opcode);
-                            instructionEntries[instCounter].execute = (count).ToString() + " - " +
-                                (count + exeTime).ToString();
+                            //instructionEntries[instCounter].execute = (count).ToString() + " - " +
+                            //(count + exeTime).ToString();
+                            hazardExists = true;
+                            hazardPointer = j;
                             break;
                         }
                     } else
@@ -71,6 +87,21 @@ namespace Project2
                         }
                     }
                 }
+                if(hazardExists == true)
+                {
+                    for(int j = hazardPointer; j >= 0; j--)
+                    {
+                        if (instructionEntries[instCounter].op1 == instructionEntries[j].dest ||
+                        instructionEntries[instCounter].op2 == instructionEntries[j].dest)
+                            if (count < (Int32.Parse(instructionEntries[j].write) + 1))
+                            {
+                                count = Int32.Parse(instructionEntries[j].write) + 1;
+                                instructionEntries[instCounter].execute = (count).ToString() + " - " +
+                                (count + exeTime).ToString();
+                            }
+                    }
+                }
+
                 count = count + exeTime + 1;
                 #endregion
 
@@ -105,6 +136,7 @@ namespace Project2
                     state.rob.robPointer++;
                     if (state.rob.robPointer >= state.rob.rob.Length)
                         state.rob.robPointer = 0;
+                    robCount.Add(count);
                 }
                 else if(count <= Int32.Parse(instructionEntries[instCounter - 1].commit) + 1)
                 {
@@ -113,6 +145,7 @@ namespace Project2
                     state.rob.robPointer++;
                     if (state.rob.robPointer >= state.rob.rob.Length)
                         state.rob.robPointer = 0;
+                    robCount.Add(count);
                 }
                 else
                 {
@@ -121,6 +154,7 @@ namespace Project2
                     state.rob.robPointer++;
                     if (state.rob.robPointer >= state.rob.rob.Length)
                         state.rob.robPointer = 0;
+                    robCount.Add(count);
                 }
 
                 PrintEntry(instructionEntries[instCounter]);
