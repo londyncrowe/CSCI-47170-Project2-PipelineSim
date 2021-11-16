@@ -9,11 +9,6 @@ namespace Project2
        {
             Config.InitConfigurations();    // Reads config.txt file and sets latency values. 
 
-            Console.WriteLine(String.Format("{0,16}{1,12}{2,9}{3,10}{4,7}{5,8}{6,9}" , "Instruction", "Fetch", 
-                "Decode", "Execute", "Read", "Write", "Commit"));
-            Console.WriteLine("--------------------- ------- -------- --------- ------ ------- --------");
-
-
             Console.Write("Enter file name (leave blank for default): ");
             string filename = Console.ReadLine();
             Fetch fetch = new Fetch();    // Use default constructor
@@ -30,12 +25,11 @@ namespace Project2
                 }
             }
             Console.WriteLine("\n");    // Formatting
-            Console.WriteLine(String.Format("{0,16}{1,12}{2,9}{3,6}{4,6}{5,8}" , "Instruction", "Issues", 
-                "Executes", "Reads", "Write", "Commits"));
-            Console.WriteLine("--------------------- ------ -------- ----- ----- -------");
+            Console.WriteLine(String.Format("{0,16}{1,12}{2,9}{3,10}{4,7}{5,8}{6,9}" , "Instruction" , "Fetch" ,
+               "Decode" , "Execute" , "Read" , "Write" , "Commit"));
+            Console.WriteLine("--------------------- ------- -------- --------- ------ ------- --------");
 
 
-            #region Fetch/Decode
 
             #region branchPredictor
             BranchPredictor predictor = new BranchPredictor(2, 3);
