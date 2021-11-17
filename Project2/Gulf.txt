@@ -1,0 +1,6 @@
+	lw x0,32(x5)
+	lw x1,45(x6)
+	lw x5,32(x10)
+loop:
+	add x0,x0,x1
+	bne x0,x5,loop

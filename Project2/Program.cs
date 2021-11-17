@@ -58,28 +58,29 @@ namespace Project2
             State state = new State();
             //create a list for all the instruction entries
             List<InstructionEntry> instructionEntry = new List<InstructionEntry>();
-            for (int i = 0; i < fetch.lineCount; i++)
-            {
-                //add a new "spot" in the list for the next for loop
-                instructionEntry.Add(new InstructionEntry());
-            }
 
             //list of all instructions for sending to the simulation class
             List<string> instructions = new List<string>();
-            List<string> decodedInst = new List<string>();
+            List<List<string>> decodedInsts = new List<List<string>>();
 
-            //loop through the instructions and add them to the instruction list and the instruction Entry list
             for (int i = 0; i < fetch.lineCount; i++)
             {
-                string instruction = fetch.GetInstruction();
-                decodedInst = decode.DecodeInstruction(instruction);
-                instructions.Add(instruction);
-                instructionEntry[i].instruction = instruction;
-                instructionEntry[i].opcode = decodedInst[0];
-                instructionEntry[i].dest = decodedInst[1];
-                instructionEntry[i].op1 = decodedInst[2];
-                if(decodedInst.Count == 4)
-                    instructionEntry[i].op2 = decodedInst[3];
+                instructions.Add(fetch.GetInstruction().Trim().Replace(".s", ""));
+                decodedInsts.Add(decode.DecodeInstruction(instructions[i]));
+            }
+
+            Dictionary<string, int> labels = FindLabels(ref decodedInsts, ref instructions);
+
+            //loop through the instructions and add them to the instruction list and the instruction Entry list
+            for (int i = 0; i < fetch.lineCount - labels.Count; i++)
+            {
+                instructionEntry.Add(new InstructionEntry());
+                instructionEntry[i].instruction = instructions[i].Trim();
+                instructionEntry[i].opcode = decodedInsts[i][0];
+                instructionEntry[i].dest = decodedInsts[i][1];
+                instructionEntry[i].op1 = decodedInsts[i][2];
+                if(decodedInsts[i].Count == 4)
+                    instructionEntry[i].op2 = decodedInsts[i][3];
             }
 
             //this is the static version
@@ -90,6 +91,147 @@ namespace Project2
             
 
             Console.ReadKey();
+        }
+
+        private static int[] registers = new int[32];
+
+        /// <summary>
+        /// Finds where the labels are in the instructions
+        /// </summary>
+        /// <param name="instructions"></param>
+        /// <returns></returns>
+        private static Dictionary<string, int> FindLabels(ref List<List<string>> decodedInstructions, ref List<string> instructions)
+        {
+            Dictionary<string, int> labels = new Dictionary<string, int>();
+            string mneumonics = ("lw flw sw fsw add sub beq bne fadd.s fsub.s fmul.s fdiv.s");
+            List<string> curInst;
+            for (int i = 0; i < decodedInstructions.Count; i++)
+            {
+                curInst = decodedInstructions[i];
+                if (!mneumonics.Contains(curInst[0].Trim()))
+                {
+                    labels.Add(curInst[0].Trim(':'), i);
+                    decodedInstructions.RemoveAt(i);
+                    instructions.RemoveAt(i);
+                    i--;
+                }
+            }
+            return labels;
+        }
+
+        /// <summary>
+        /// Pre-Calculates the results of each branch
+        /// </summary>
+        /// <param name="instructions"></param>
+        /// <returns></returns>
+        private static List<bool> CalculateBranches(List<List<string>> instructions, Dictionary<string, int> labels)
+        {
+            List<string> curInst;
+            List<bool> branchesTaken = new List<bool>();
+            int dest, source1, source2;
+            for (int i = 0; i < instructions.Count; i++)
+            {
+                curInst = instructions[i];
+                //add counts for execute end
+                switch (curInst[0].Trim())
+                {
+                    #region lwCase
+                    case "lw":
+                        Int32.TryParse(curInst[1].Substring(1), out dest);
+                        registers[dest] = dest;
+                        break;
+                    #endregion
+                    #region flwCase
+                    case "flw":
+                        Int32.TryParse(curInst[1].Substring(1), out dest);
+                        registers[dest] = dest;
+                        break;
+                    #endregion
+                    #region swCase
+                    case "sw":
+                        break;
+                    #endregion
+                    #region fswCase
+                    case "fsw":
+                        break;
+                    #endregion
+                    #region addCase
+                    case "add":
+                        Int32.TryParse(curInst[1].Substring(1), out dest);
+                        Int32.TryParse(curInst[2].Substring(1), out source1);
+                        Int32.TryParse(curInst[3].Substring(1), out source2);
+                        registers[dest] = registers[source1] + registers[source2];
+                        break;
+                    #endregion
+                    #region subCase
+                    case "sub":
+                        Int32.TryParse(curInst[1].Substring(1), out dest);
+                        Int32.TryParse(curInst[2].Substring(1), out source1);
+                        Int32.TryParse(curInst[3].Substring(1), out source2);
+                        registers[dest] = registers[source1] - registers[source2];
+                        break;
+                    #endregion
+                    #region beqCase
+                    case "beq":
+                        Int32.TryParse(curInst[1].Substring(1), out source1);
+                        Int32.TryParse(curInst[2].Substring(1), out source2);
+                        if (registers[source1] == registers[source2])
+                        {
+                            branchesTaken.Add(true);
+                            labels.TryGetValue(curInst[3], out i);
+                        }
+                        else
+                            branchesTaken.Add(false);
+                        break;
+                    #endregion
+                    #region bneCase
+                    case "bne":
+                        Int32.TryParse(curInst[1].Substring(1), out source1);
+                        Int32.TryParse(curInst[2].Substring(1), out source2);
+                        if (registers[source1] == registers[source2])
+                            branchesTaken.Add(false);
+                        else
+                        {
+                            branchesTaken.Add(true);
+                            labels.TryGetValue(curInst[3], out i);
+                        }
+                        break;
+                    #endregion
+                    #region faddCase
+                    case "fadd.s":
+                        Int32.TryParse(curInst[1].Substring(1), out dest);
+                        Int32.TryParse(curInst[2].Substring(1), out source1);
+                        Int32.TryParse(curInst[3].Substring(1), out source2);
+                        registers[dest] = registers[source1] + registers[source2];
+                        break;
+                    #endregion
+                    #region fsubCase
+                    case "fsub.s":
+                        Int32.TryParse(curInst[1].Substring(1), out dest);
+                        Int32.TryParse(curInst[2].Substring(1), out source1);
+                        Int32.TryParse(curInst[3].Substring(1), out source2);
+                        registers[dest] = registers[source1] - registers[source2];
+                        break;
+                    #endregion
+                    #region fmulCase
+                    case "fmul.s":
+                        Int32.TryParse(curInst[1].Substring(1), out dest);
+                        Int32.TryParse(curInst[2].Substring(1), out source1);
+                        Int32.TryParse(curInst[3].Substring(1), out source2);
+                        registers[dest] = registers[source1] * registers[source2];
+                        break;
+                    #endregion
+                    #region fdivCase
+                    case "fdiv.s":
+                        Int32.TryParse(curInst[1].Substring(1), out dest);
+                        Int32.TryParse(curInst[2].Substring(1), out source1);
+                        Int32.TryParse(curInst[3].Substring(1), out source2);
+                        registers[dest] = registers[source1] / registers[source2];
+                        break;
+                        #endregion
+                }
+            }
+            return branchesTaken;
         }
     }
 }

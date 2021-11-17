@@ -39,7 +39,14 @@ namespace Project2
             SetInstruction(fetchedInstruction);
             string[] instruction = this.instruction.Split(' ');
             string opcode = instruction[0];
-            string[] operands = instruction[1].Split(',');
+            string[] operands = { };
+
+            try
+            {
+                operands = instruction[1].Split(',');
+            }
+            catch (Exception e)
+            { }
             List<string> decodedInstruction = new List<string>();
             decodedInstruction.Add(opcode);
             for (int i = 0; i < operands.Length; i++)

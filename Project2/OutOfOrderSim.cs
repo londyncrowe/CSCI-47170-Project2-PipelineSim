@@ -19,6 +19,7 @@ namespace Project2
             int count = 1;
             int instCounter = 0;
             Boolean done = false;
+            //CalculateBranches();
             //this is for checking the rob and making sure that fetches
             //are set accordingly if the rob is full
             List<int> robCount = new List<int>();
@@ -61,15 +62,20 @@ namespace Project2
                     }
 
                 //loop through previous entries looking for data hazards
-                for (int j = instCounter; j >= 0; j--)
+                for (int j = instCounter - 1; j >= 0; j--)
                 {
                     //if there is a data hazard
                     if(instructionEntries[instCounter].op1 == instructionEntries[j].dest ||
-                        instructionEntries[instCounter].op2 == instructionEntries[j].dest)
+                        instructionEntries[instCounter].op2 == instructionEntries[j].dest ||
+                        instructionEntries[instCounter].dest == instructionEntries[j].dest)
                     {
                         //if the data hazard has not finished executing
                         if (instructionEntries[j].execute == null)
+                        {
+                            hazardExists = true;
+                            hazardPointer = j;
                             break;
+                        }
                         else
                         {
                             count = Int32.Parse(instructionEntries[j].write) + 1;
@@ -80,22 +86,21 @@ namespace Project2
                             hazardPointer = j;
                             break;
                         }
-                    } else
-                    {
-                        //method call to get the execution time
-                        exeTime = GetExecutionTime(instructionEntries[instCounter].opcode);
-                        //if execute time is longer than one cycle add a '-' in the middle and get the end time
-                        if (exeTime != 0)
-                            instructionEntries[instCounter].execute = (count).ToString() + " - " +
-                                (count + exeTime).ToString();
-                        else
-                            instructionEntries[instCounter].execute = (count).ToString();
                     }
                 }
+                //method call to get the execution time
+                exeTime = GetExecutionTime(instructionEntries[instCounter].opcode);
+                //if execute time is longer than one cycle add a '-' in the middle and get the end time
+                if (exeTime != 0)
+                    instructionEntries[instCounter].execute = (count).ToString() + " - " +
+                        (count + exeTime).ToString();
+                else
+                    instructionEntries[instCounter].execute = (count).ToString();
+
                 //this checks to see if data hazards have been detected and will
                 //check to see if there are any other data hazards with a higher cycle
                 //completion time than the first hazard it found
-                if(hazardExists == true)
+                if (hazardExists == true)
                 {
                     for(int j = hazardPointer; j >= 0; j--)
                     {
@@ -239,5 +244,6 @@ namespace Project2
                     return -1;
             }
         }
+
     }
 }
