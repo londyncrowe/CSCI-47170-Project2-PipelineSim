@@ -8,11 +8,11 @@ namespace Project2
 {
     class BranchPredictor
     {
-        private int GlobalPredictor { get; set; }    //11 and 10 are take, 01 and 00 are don't take
-        private int[] LocalPredictor { get; set; }
-        private bool Selector { get; set; }     //high for global, low for local
-        private bool Miss { get; set; }         //if the last prediction was incorrect
-        private int LastLocalPredictor { get; set; }
+        public int GlobalPredictor { get; set; }    //11 and 10 are take, 01 and 00 are don't take
+        public int[] LocalPredictor { get; set; }
+        public bool Selector { get; set; }     //high for global, low for local
+        public bool Miss { get; set; }         //if the last prediction was incorrect
+        public int LastLocalPredictor { get; set; }
 
         public BranchPredictor() {
             GlobalPredictor = 3;

@@ -14,43 +14,81 @@ namespace Project2
             Fetch fetch = new Fetch();    // Use default constructor
             if (!string.IsNullOrEmpty(filename))
             {
-                try
+                if (filename != "branchPredictor")
                 {
-                    fetch = new Fetch(filename);
-                }
-                catch(System.IO.FileNotFoundException e)
-                {
-                    Console.WriteLine("Error: Couldn't find " + filename + ". Exiting...");
-                    Environment.Exit(0);
+                    try
+                    {
+                        fetch = new Fetch(filename);
+                    }
+                    catch (System.IO.FileNotFoundException e)
+                    {
+                        Console.WriteLine("Error: Couldn't find " + filename + ". Exiting...");
+                        Environment.Exit(0);
+                    }
                 }
             }
+
+            #region branchPredictor
+            if (filename == "branchPredictor")
+            {
+                BranchPredictor predictor = new BranchPredictor(2, 3);
+
+                Console.WriteLine("For Selector, True is global and False is local");
+                predictor.PredictBranchTournament(4);
+                predictor.UpdatePredictor(false);
+                Console.WriteLine("\nFirst Prediction- Selector:" + predictor.Selector +
+                        "\t\t\tMissed Prediction:" + predictor.Miss);
+                predictor.PredictBranchTournament(4);
+                Console.WriteLine("\nSecond Prediction Before Update- Selector:" + predictor.Selector +
+                        "\tMissed Prediction:" + predictor.Miss +
+                        "\tLocal Predictor:" + predictor.LastLocalPredictor);
+                predictor.UpdatePredictor(false);
+                Console.WriteLine("\nSecond Prediction After Update- Selector:" + predictor.Selector +
+                        "\tMissed Prediction:" + predictor.Miss +
+                        "\tLocal Predictor:" + predictor.LastLocalPredictor);
+                predictor.PredictBranchTournament(4);
+                predictor.UpdatePredictor(false);
+                Console.WriteLine("\nThird Prediction- Selector:" + predictor.Selector +
+                        "\t\tMissed Prediction:" + predictor.Miss +
+                        "\tLocal Predictor:" + predictor.LastLocalPredictor);
+                predictor.PredictBranchTournament(4);
+                predictor.UpdatePredictor(true);
+                Console.WriteLine("\nFourth Prediction- Selector:" + predictor.Selector +
+                        "\t\tMissed Prediction:" + predictor.Miss +
+                        "\tLocal Predictor:" + predictor.LastLocalPredictor);
+                predictor.PredictBranchTournament(4);
+                Console.WriteLine("\nFifth Prediction Before Update- Selector:" + predictor.Selector +
+                        "\tMissed Prediction:" + predictor.Miss +
+                        "\tLocal Predictor:" + predictor.LastLocalPredictor);
+                predictor.UpdatePredictor(true);
+                Console.WriteLine("\nFifth Prediction After Update- Selector:" + predictor.Selector +
+                        "\tMissed Prediction:" + predictor.Miss);
+                predictor.PredictBranchTournament(4);
+                predictor.UpdatePredictor(false);
+                Console.WriteLine("\nSixth Prediction- Selector:" + predictor.Selector +
+                        "\t\t\tMissed Prediction:" + predictor.Miss);
+                predictor.PredictBranchTournament(0);
+                Console.WriteLine("\nSeventh Prediction Before Update- Selector:" + predictor.Selector +
+                        "\tMissed Prediction:" + predictor.Miss);
+                predictor.UpdatePredictor(true);
+                Console.WriteLine("\nSeventh Prediction After Update- Selector:" + predictor.Selector +
+                        "\tMissed Prediction:" + predictor.Miss +
+                        "\tLocal Predictor:" + predictor.LastLocalPredictor);
+                predictor.PredictBranchTournament(0);
+                predictor.UpdatePredictor(false);
+                Console.WriteLine("\nEigth Prediction- Selector:" + predictor.Selector +
+                        "\t\tMissed Prediction:" + predictor.Miss +
+                        "\tLocal Predictor:" + predictor.LastLocalPredictor);
+
+                Console.ReadKey();
+                Environment.Exit(0);
+            }
+            #endregion
+
             Console.WriteLine("\n");    // Formatting
             Console.WriteLine(String.Format("{0,16}{1,12}{2,9}{3,10}{4,7}{5,8}{6,9}" , "Instruction" , "Fetch" ,
                "Decode" , "Execute" , "Read" , "Write" , "Commit"));
             Console.WriteLine("--------------------- ------- -------- --------- ------ ------- --------");
-
-
-
-            #region branchPredictor
-            BranchPredictor predictor = new BranchPredictor(2, 3);
-
-            predictor.PredictBranchTournament(4);
-            predictor.UpdatePredictor(false);
-            predictor.PredictBranchTournament(4);
-            predictor.UpdatePredictor(false);
-            predictor.PredictBranchTournament(4);
-            predictor.UpdatePredictor(false);
-            predictor.PredictBranchTournament(4);
-            predictor.UpdatePredictor(true);
-            predictor.PredictBranchTournament(4);
-            predictor.UpdatePredictor(true);
-            predictor.PredictBranchTournament(4);
-            predictor.UpdatePredictor(false);
-            predictor.PredictBranchTournament(0);
-            predictor.UpdatePredictor(true);
-            predictor.PredictBranchTournament(0);
-            predictor.UpdatePredictor(false);
-            #endregion
 
             //fetch gets the file with all the instructions
             Decode decode = new Decode();
